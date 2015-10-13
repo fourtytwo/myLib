@@ -184,9 +184,12 @@ namespace myLib {
         delete[] ptr;
     }
 
-    /**
+    /*
      * @brief       Subscript operator. returns an array of T-elements(rows), which again can be subscripted
      * 				In orhter word: It returns the pointer to the Nth row(array).
+     *
+     * @throws std::out_of_range exception in case the index is larger than the rows
+     *
      *
      * @param[in]  n		Which row should be selected and returned.
      *
@@ -198,16 +201,36 @@ namespace myLib {
         return this->ptr[index];
     }
 
+    /**
+     * @brief      Getter for number of collums
+     *
+     * @tparam     T     Template argument T defining the tpyes of the Matrix's coefficients
+     *
+     * @return     Number of collums
+     */
     template <typename T>
     size_t Matrix<T>::get_collums() const {
         return this->colls;
     }
 
+    /**
+     * @brief      Getter for number of rows
+     *
+     * @tparam     T     Template argument T defining the tpyes of the Matrix's coefficients
+     *
+     * @return     Number of Rows
+     */
     template <typename T>
     size_t Matrix<T>::get_rows() const {
         return this->rows;
     }
 
+
+    /**
+     * @brief      Printing the each row of the matrix and appending \n after each row. Using the string overload for the coefficients
+     *
+     * @tparam     T     Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template<typename T>
     void Matrix<T>::print() const {
         for (int i = 0; i < rows; ++i) {
@@ -218,7 +241,19 @@ namespace myLib {
         }
     }
 
-
+    /**
+     * @brief      Matrix Mulitplication. (AB)ij = Sum Aik*Bkj. Is not commutative.
+     *
+     * @throws invalid_dimension_exception in case Collums(A) != Rows(B)
+     *
+     *
+     * @param[in]  a     First Matrix
+     * @param[in]  b     Second Matrix
+     *
+     * @tparam     T     Template argument T defining the tpyes of the Matrix's coefficients	
+     *
+     * @return     Returns the matrix (A*B)
+     */
     template<typename T>
     Matrix<T> operator*(const Matrix<T>& a , const Matrix<T>& b) {
         if(a.get_collums() != b.get_rows()) {

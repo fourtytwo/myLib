@@ -259,9 +259,22 @@ namespace myLib {
         if(a.get_collums() != b.get_rows()) {
             throw myLib::invalid_dimension_exception("Colls of A != Rows of B");
         }
+
+
+        //for the k variable needed in the 3rd loop
+        auto sum_loop_iterator = a.get_collums();
+
+        //Matrix to be returned
         Matrix<T> tmp(a.get_rows() , b.get_collums());
-
-
+        
+        for(int i = 0; i < tmp.get_rows() ; ++i) {
+        	for(int j = 0; j < tmp.get_collums() ; ++j) {
+        		for(int k = 0; k < sum_loop_iterator ; ++k) {
+        			tmp[i][j]  =  A[i][k] * B[k][j];
+        		}
+        	}
+        }
+        return tmp;
 
     }
 }

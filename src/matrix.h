@@ -259,29 +259,28 @@ namespace myLib {
      * @return     Returns the matrix (A*B)
      */
     template<typename T>
-    Matrix<T> operator*(const Matrix<T>& a , const Matrix<T>& b) {
-        if(a.get_collums() != b.get_rows()) {
+    Matrix<T> operator*(const Matrix<T>& matrix_A , const Matrix<T>& matrix_B) {
+        if(matrix_A.get_collums() != matrix_B.get_rows()) {
             throw myLib::invalid_dimension_exception("Colls of A != Rows of B");
         }
 
 
         //for the k variable needed in the 3rd loop
-        auto sum_loop_iterator = a.get_collums();
+        auto sum_loop_iterator = matrix_A.get_collums();
 
         //Matrix to be returned
-        Matrix<T> tmp(a.get_rows() , b.get_collums());
+        Matrix<T> tmp(matrix_A.get_rows() , matrix_B.get_collums());
         
         for(int i = 0; i < tmp.get_rows() ; ++i) {
         	for(int j = 0; j < tmp.get_collums() ; ++j) {
         		for(int k = 0; k < sum_loop_iterator ; ++k) {
-        			tmp[i][j]  =  A[i][k] * B[k][j];
+        			tmp[i][j]  =  matrix_A[i][k] * matrix_B[k][j];
         		}
         	}
         }
         return tmp;
 
     }
-
 
     /**
      * @brief      Comparison operator Checks if all coefficients on the same posistion are the same. And if dimensions are the same
@@ -297,14 +296,14 @@ namespace myLib {
     template<typename T>
     bool operator==(const Matrix<T>& matrix_A , const Matrix<T>& matrix_B) noexcept
     {
-    	if(a.get_rows() != b.get_rows() || a.get_collums() != b.get_collums()) {
-    		return false
+    	if(matrix_A.get_rows() != matrix_B.get_rows() || matrix_A.get_collums() != matrix_B.get_collums()) {
+    		return false;
     	}
 
-    	for (int i = 0; i < a.get_rows(); ++i ) {
-    		for (int j = 0; j < a.get_collums(); ++i) {
+    	for (int i = 0; i < matrix_A.get_rows(); ++i ) {
+    		for (int j = 0; j < matrix_A.get_collums(); ++i) {
     			if(matrix_A[i][j] != matrix_B[i][j]) {
-    				return false
+    				return false;
     			}
     		}
     	}

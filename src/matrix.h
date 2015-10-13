@@ -241,6 +241,10 @@ namespace myLib {
         }
     }
 
+
+
+
+
     /**
      * @brief      Matrix Mulitplication. (AB)ij = Sum Aik*Bkj. Is not commutative.
      *
@@ -277,5 +281,37 @@ namespace myLib {
         return tmp;
 
     }
+
+
+    /**
+     * @brief      Comparison operator Checks if all coefficients on the same posistion are the same. And if dimensions are the same
+     *
+     * @param[in]  matrix_A  1st Matrix
+     * @param[in]  matrix_B  2nd Matrix
+     *
+     * @tparam     T         To deduce the Matrice`s Coefficient type
+     *
+     * @return     returns true if for all Coeffients Aij = Bij
+     */
+
+    template<typename T>
+    bool operator==(const Matrix<T>& matrix_A , const Matrix<T>& matrix_B) noexcept
+    {
+    	if(a.get_rows() != b.get_rows() || a.get_collums() != b.get_collums()) {
+    		return false
+    	}
+
+    	for (int i = 0; i < a.get_rows(); ++i ) {
+    		for (int j = 0; j < a.get_collums(); ++i) {
+    			if(matrix_A[i][j] != matrix_B[i][j]) {
+    				return false
+    			}
+    		}
+    	}
+
+    	return true;
+    }
 }
+
+
 #endif //MATRIX_MATRIX_H

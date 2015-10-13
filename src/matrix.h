@@ -7,38 +7,66 @@
 
 #include "exceptions.h"
 
+
+//Namespace of my Library
 namespace myLib {
 
+
+	//class definitition of the Matrix class
     template<typename T>
     class Matrix {
     public:
+
+    	//Constructor for different dimesnios
         Matrix(const size_t, const size_t);
+
+        //constructor for quadratic MATRIX
         Matrix(const size_t row_colls);
+
+        //Copy constructor
         Matrix(const Matrix& mat);
+
+        //Move constructor
         Matrix(Matrix&& mat);
 
+        //destructor deleting all allocated pointers unless ptr = nullptr(i.e. it has been moved)
         ~Matrix();
 
+        //Copy operator
         Matrix& operator=(const Matrix& mat);
+
+        //move Operator
         Matrix& operator=(Matrix&& mat);
 
+        //subscript operator
         T *operator[](const size_t index) const;
 
 
         size_t get_collums() const;
         size_t get_rows() const;
 
-
+        //prints the values of the Matrix in Matix form using \n ..., by using operator string
         void print() const;
 
     private:
+
+    	//Matrix has immutable dimensions. Number of rows, collums
         const size_t rows;
         const size_t colls;
+
+        //Pointer to matrix. Dynamically alocated, allocated in constrcutor and deallocated
         T **ptr;
 
 
     };
 
+    /**
+     * @brief      Matrix Constructor for a quadratic MxM matrix.
+     *
+     * @param[in]  row_colls  dimensions(rows and collums) of my desired Matrix 
+     *
+     * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template<typename T>
     Matrix<T>::Matrix(const size_t row_colls) :
             Matrix(row_colls , row_colls) {
@@ -48,7 +76,14 @@ namespace myLib {
         }
     }
 
-
+    /**
+     * @brief      MAtrix constructor for a MxN Matrix where m=n or m!=n
+     *
+     * @param[in]  _rows   Number of Rows
+     * @param[in]  _colls  Number of collums
+     *
+     * @tparam     T       Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template<typename T>
     Matrix<T>::Matrix(const size_t _rows, const size_t _colls) :
             rows{_rows},
@@ -59,6 +94,14 @@ namespace myLib {
         }
     }
 
+
+    /**
+     * @brief      Copy Constructor
+     *
+     * @param[in]  mat   Matrix to be copied | collums/rows(mat) = collums/rows(this)
+     *
+     * @tparam     T     Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template <typename T>
     Matrix<T>::Matrix(const myLib::Matrix<T>& mat):
             Matrix{mat.rows , mat.get_collums()}
@@ -70,15 +113,29 @@ namespace myLib {
         }
     }
 
+    /**
+     * @brief      Move constructor, leavs the second matrx in undefined state
+     *
+     * @param[in]  mat   Matrix from which should be moved
+     *
+     * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template<typename T>
     Matrix<T>::Matrix(myLib::Matrix<T>&& mat):
             rows{mat.get_rows()},
             colls{mat.get_collums()}
     {
         this->ptr = mat.ptr;
-        this->ptr = nullptr;
+        mat.ptr = nullptr;
     }
 
+    /**
+     * @brief      Cppy operator, performs a deep copy
+     *
+     * @param[in]  mat   Matrix from which should be copied
+     *
+     * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template <typename T>
     Matrix<T>& Matrix<T>::operator=(const myLib::Matrix<T> &mat) {
         if(this->rows != mat.get_rows() || this->colls != mat.get_collums()) {
@@ -92,20 +149,31 @@ namespace myLib {
         }
     }
 
-
+     /**
+     * @brief      Move operator leavs the second matrx in undefined state
+     *
+     * @param[in]  mat   Matrix from which should be moved
+     *
+     * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template <typename T>
     Matrix<T>& Matrix<T>::operator=(myLib::Matrix<T> &&mat) {
         if(this->rows != mat.get_rows() || this->colls != mat.get_collums()) {
             throw myLib::invalid_dimension_exception("Either collums or rows are not equal");
         }
         this->ptr = mat.ptr;
-        this->ptr = nullptr;
+        mat.ptr = nullptr;
     }
 
-
+    /**
+     * @brief      Matrix destructor, does nothing in case the matrix has been moved	
+     *
+     * @tparam     T     Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template<typename T>
     Matrix<T>::~Matrix() {
 
+    	//in case has been moved prior to destruction
         if(this->ptr == nullptr) {
             return;
         }
@@ -116,7 +184,14 @@ namespace myLib {
         delete[] ptr;
     }
 
-
+    /**
+     * @brief       Subscript operator. returns an array of T-elements(rows), which again can be subscripted
+     * 				In orhter word: It returns the pointer to the Nth row(array).
+     *
+     * @param[in]  n		Which row should be selected and returned.
+     *
+     * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
+     */
     template<typename T>
     T *Matrix<T>::operator[](const size_t index) const {
         if (index >= rows) throw std::out_of_range("the index is larger or equal than your number of rows");

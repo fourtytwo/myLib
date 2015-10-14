@@ -41,6 +41,7 @@ namespace myLib {
         //subscript operator
         T *operator[](const size_t index) const;
 
+        bool operator bool() const;
 
         size_t get_collums() const;
         size_t get_rows() const;
@@ -201,6 +202,18 @@ namespace myLib {
         return this->ptr[index];
     }
 
+
+    /**
+     *  @brief    IF the matrix has been moved from in other words is invalid, it returns 0
+     *  
+     *  @tparam   T typename to deduce MAtrix type
+     *  
+     *  @return   returns true if matrix is valid false otherwise.
+     */
+    template<typename T>
+    bool Matrix<T>::operator bool() const {
+    	return (ptr==nullptr ? true : false);
+    }
     /**
      * @brief      Getter for number of collums
      *
@@ -224,7 +237,6 @@ namespace myLib {
     size_t Matrix<T>::get_rows() const {
         return this->rows;
     }
-
 
     /**
      * @brief      Printing the each row of the matrix and appending \n after each row. Using the string overload for the coefficients

@@ -41,7 +41,7 @@ namespace myLib {
         //subscript operator
         T *operator[](const size_t index) const;
 
-        bool operator bool() const;
+        operator bool() const;
 
         size_t get_collums() const;
         size_t get_rows() const;
@@ -211,7 +211,7 @@ namespace myLib {
      *  @return   returns true if matrix is valid false otherwise.
      */
     template<typename T>
-    bool Matrix<T>::operator bool() const {
+    Matrix<T>::operator bool() const {
     	return (ptr==nullptr ? true : false);
     }
     /**

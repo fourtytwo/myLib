@@ -4,7 +4,7 @@
 
 #include "exceptions.h"
 
-namespace myLib {
+namespace jib {
 
     invalid_dimension_exception::invalid_dimension_exception() { }
 

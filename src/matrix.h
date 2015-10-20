@@ -9,7 +9,7 @@
 
 
 //Namespace of my Library
-namespace myLib {
+namespace jib {
 
 
 	//class definitition of the Matrix class
@@ -104,7 +104,7 @@ namespace myLib {
      * @tparam     T     Template argument T defining the tpyes of the Matrix's coefficients
      */
     template <typename T>
-    Matrix<T>::Matrix(const myLib::Matrix<T>& mat):
+    Matrix<T>::Matrix(const jib::Matrix<T>& mat):
             Matrix{mat.rows , mat.get_collums()}
     {
         for(int i = 0;  i < this->rows ; ++i) {
@@ -122,7 +122,7 @@ namespace myLib {
      * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
      */
     template<typename T>
-    Matrix<T>::Matrix(myLib::Matrix<T>&& mat):
+    Matrix<T>::Matrix(jib::Matrix<T>&& mat):
             rows{mat.get_rows()},
             colls{mat.get_collums()}
     {
@@ -138,9 +138,9 @@ namespace myLib {
      * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
      */
     template <typename T>
-    Matrix<T>& Matrix<T>::operator=(const myLib::Matrix<T> &mat) {
+    Matrix<T>& Matrix<T>::operator=(const jib::Matrix<T> &mat) {
         if(this->rows != mat.get_rows() || this->colls != mat.get_collums()) {
-            throw myLib::invalid_dimension_exception("Either collums or rows are not equal");
+            throw jib::invalid_dimension_exception("Either collums or rows are not equal");
         }
 
         for(int i = 0;  i < this->rows ; ++i) {
@@ -158,9 +158,9 @@ namespace myLib {
      * @tparam     T          Template argument T defining the tpyes of the Matrix's coefficients
      */
     template <typename T>
-    Matrix<T>& Matrix<T>::operator=(myLib::Matrix<T> &&mat) {
+    Matrix<T>& Matrix<T>::operator=(jib::Matrix<T> &&mat) {
         if(this->rows != mat.get_rows() || this->colls != mat.get_collums()) {
-            throw myLib::invalid_dimension_exception("Either collums or rows are not equal");
+            throw jib::invalid_dimension_exception("Either collums or rows are not equal");
         }
         this->ptr = mat.ptr;
         mat.ptr = nullptr;
@@ -273,7 +273,7 @@ namespace myLib {
     template<typename T>
     Matrix<T> operator*(const Matrix<T>& matrix_A , const Matrix<T>& matrix_B) {
         if(matrix_A.get_collums() != matrix_B.get_rows()) {
-            throw myLib::invalid_dimension_exception("Colls of A != Rows of B");
+            throw jib::invalid_dimension_exception("Colls of A != Rows of B");
         }
 
 

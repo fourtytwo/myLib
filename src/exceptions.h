@@ -9,7 +9,7 @@
 #include  <string>
 
 
-namespace myLib {
+namespace jib {
     class invalid_dimension_exception {
     public:
         invalid_dimension_exception();

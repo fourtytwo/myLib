@@ -10,14 +10,18 @@
 
 
 namespace jib {
-    class invalid_dimension_exception {
-    public:
-        invalid_dimension_exception();
-        invalid_dimension_exception(std::string msg);
+	namespace excp {
 
-    private:
-        std::string text;
-    };
+	    class invalid_dimension_exception {
+	    public:
+	        invalid_dimension_exception();
+	        invalid_dimension_exception(std::string msg);
+
+	    private:
+	        std::string text;
+	    };
+
+	}
 }
 
 #endif //MATRIX_EXCEPTIONS_H
